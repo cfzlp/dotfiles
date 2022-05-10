@@ -27,8 +27,9 @@ curl https://pyenv.run | bash
 
 # Install homebrew
 sudo apt update -y
-sudo apt-get install -y build-essential procps curl file git
+sudo apt-get install -y build-essential procps curl file git gcc
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.profile
 
 # Install kubeseal
 brew update
