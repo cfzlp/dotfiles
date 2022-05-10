@@ -32,4 +32,5 @@ NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ho
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.bashrc
 
 # Install kubeseal
-/bin/bash -c "brew update && brew install kubeseal"
+/home/linuxbrew/.linuxbrew/bin/brew update
+/home/linuxbrew/.linuxbrew/bin/brew install kubeseal
