@@ -16,15 +16,15 @@ pushd $HOME/.local/opt/google-cloud-sdk
 /usr/bin/env bash -c './install.sh --command-completion true --path-update true --quiet'
 popd
 
-# # Install pyenv
-# curl https://pyenv.run | bash
+# Install pyenv
+curl https://pyenv.run | bash
 
-# # Install homebrew
-# sudo apt-get update -y && sudo apt-get install -y build-essential procps curl file git gcc
-# NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.bashrc
+# Install homebrew
+sudo apt-get update -y && sudo apt-get install -y build-essential procps curl file git gcc
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.bashrc
 
-# # Installs with Terraform
-# /home/linuxbrew/.linuxbrew/bin/brew update
-# /home/linuxbrew/.linuxbrew/bin/brew install kubeseal
-# /home/linuxbrew/.linuxbrew/bin/brew install terraform
+# Installs with Terraform
+/home/linuxbrew/.linuxbrew/bin/brew update
+/home/linuxbrew/.linuxbrew/bin/brew install kubeseal
+/home/linuxbrew/.linuxbrew/bin/brew install terraform
