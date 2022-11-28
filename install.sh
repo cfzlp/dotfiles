@@ -28,6 +28,6 @@ sudo apt update
 sudo apt-get install terraform
 
 # Install kubeseal (https://github.com/bitnami-labs/sealed-secrets#linux)
-wget https://github.com/bitnami-labs/sealed-secrets/releases/download/<release-tag>/kubeseal-<version>-linux-amd64.tar.gz
-tar -xvzf kubeseal-<version>-linux-amd64.tar.gz kubeseal
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.19.2/kubeseal-0.19.2-linux-amd64.tar.gz
+tar -xvzf kubeseal-0.19.2-linux-amd64.tar.gz kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
