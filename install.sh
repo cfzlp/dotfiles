@@ -1,20 +1,11 @@
 #!/usr/bin/env bash
 set -e -u -o pipefail
 
-default_download_dir="/tmp"
-download_dir=$default_download_dir
-
-# Install Google Cloud SDK
-pushd $download_dir
-mkdir -p $HOME/.local/opt
-curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-386.0.0-linux-x86_64.tar.gz
-tar xzf google-cloud-cli-386.0.0-linux-x86_64.tar.gz
-mv google-cloud-sdk $HOME/.local/opt
-rm -f google-cloud-cli-386.0.0-linux-x86_64.tar.gz
-popd
-pushd $HOME/.local/opt/google-cloud-sdk
-/usr/bin/env bash -c './install.sh --command-completion true --path-update true --quiet'
-popd
+# Install Google Cloud SDK (https://cloud.google.com/sdk/docs/install#deb)
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+sudo apt-get update && sudo apt-get install google-cloud-cli
 
 # Install pyenv
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
@@ -25,12 +16,18 @@ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
 echo 'eval "$(pyenv init -)"' >> ~/.profile
 
-# Install homebrew
-sudo apt-get update -y && sudo apt-get install -y build-essential procps curl file git gcc
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/codespace/.bashrc
+# Install terraform (https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+sudo apt-get install terraform
 
-# Installs with Terraform
-/home/linuxbrew/.linuxbrew/bin/brew update
-/home/linuxbrew/.linuxbrew/bin/brew install kubeseal
-/home/linuxbrew/.linuxbrew/bin/brew install terraform
+# Install kubeseal (https://github.com/bitnami-labs/sealed-secrets#linux)
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/<release-tag>/kubeseal-<version>-linux-amd64.tar.gz
+tar -xvzf kubeseal-<version>-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
